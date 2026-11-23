@@ -1,46 +1,123 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="SmartSchool - Student Academic Document Request with Chatbot Support for Medina Ipil College.">
 
-  <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="smartschool">
+  <meta name="apple-mobile-web-app-title" content="SmartSchool">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>smartschool</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <title>SmartSchool</title>
+
+  <style>
+    #install-popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(0, 0, 0, 0.65);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    #install-card {
+      background: white;
+      width: 100%;
+      max-width: 380px;
+      padding: 28px;
+      border-radius: 18px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    #install-card h2 {
+      margin-top: 0;
+      color: #176B3A;
+    }
+
+    #install-card p {
+      color: #555;
+      line-height: 1.5;
+    }
+
+    #install-button {
+      display: block;
+      background: #176B3A;
+      color: white;
+      padding: 14px;
+      margin-top: 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #close-install {
+      margin-top: 15px;
+      border: none;
+      background: transparent;
+      color: #666;
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Android Installation Popup -->
+  <div id="install-popup">
+    <div id="install-card">
+      <h2>Install SmartSchool</h2>
+
+      <p>
+        Get the SmartSchool Android app for easier access
+        to Medina Ipil College registrar services.
+      </p>
+
+      <a
+        id="install-button"
+        href="https://github.com/nameless499/smartschool-apk/releases/latest/download/app-release.apk"
+      >
+        Download SmartSchool APK
+      </a>
+
+      <button id="close-install" onclick="closeInstallPopup()">
+        Maybe Later
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function closeInstallPopup() {
+      document.getElementById('install-popup').style.display = 'none';
+    }
+
+    // Show popup only on Android phones.
+    // This basic version cannot reliably detect an installed APK.
+    (function () {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isMobile = /Mobile/i.test(navigator.userAgent);
+
+      if (isAndroid && isMobile) {
+        document.getElementById('install-popup').style.display = 'flex';
+      }
+    })();
+  </script>
+
+  <!-- Flutter application -->
   <script src="flutter_bootstrap.js" async></script>
+
 </body>
 </html>

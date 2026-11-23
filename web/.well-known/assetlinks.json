@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.smartschool",
+      "sha256_cert_fingerprints": [
+        "5E:78:A6:BC:96:85:48:0F:9E:F6:7F:87:2C:9E:11:ED:2B:FD:AF:9F:76:B9:B0:6A:16:10:A8:D3:58:44:1D:4D"
+      ]
+    }
+  }
+]
