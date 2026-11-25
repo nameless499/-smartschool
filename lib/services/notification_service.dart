@@ -3,17 +3,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
+
   factory NotificationService() => _instance;
+
   NotificationService._internal();
 
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
+
   RealtimeChannel? _channel;
 
-  // 1. Initialize the plugin (Call this in main.dart)
   Future<void> initialize() async {
     const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher'); // App icon
+        AndroidInitializationSettings('@mipmap/launcher_icon');
 
     const DarwinInitializationSettings iosSettings =
         DarwinInitializationSettings(
@@ -29,7 +31,6 @@ class NotificationService {
 
     await _plugin.initialize(initSettings);
 
-    // Request permissions for Android 13+
     await _plugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
@@ -37,12 +38,11 @@ class NotificationService {
         ?.requestNotificationsPermission();
   }
 
-  // 👇 THIS IS THE METHOD YOU WERE MISSING
   Future<void> showPaymentSuccessNotification({required double amount}) async {
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-          'smartschool_payments', // Channel ID
-          'Payments', // Channel Name
+          'smartschool_payments',
+          'Payments',
           channelDescription: 'Notifications for successful payments',
           importance: Importance.max,
           priority: Priority.high,
@@ -56,14 +56,13 @@ class NotificationService {
     );
 
     await _plugin.show(
-      DateTime.now().millisecondsSinceEpoch.remainder(100000), // Unique ID
+      DateTime.now().millisecondsSinceEpoch.remainder(100000),
       'Payment Successful 🎉',
       'Your GCash payment of ₱${amount.toStringAsFixed(2)} was successful.',
       const NotificationDetails(android: androidDetails, iOS: iosDetails),
     );
   }
 
-  // 👇 (Optional) Realtime listener for Supabase
   void subscribeToRealtime(String userId) {
     _channel?.unsubscribe();
 
@@ -80,9 +79,12 @@ class NotificationService {
           ),
           callback: (payload) {
             final newRecord = payload.newRecord;
+
             final title = newRecord['title'] as String? ?? 'SmartSchool';
+
             final body =
                 newRecord['body'] as String? ?? 'You have a new notification';
+
             _showRealtimeNotification(title, body);
           },
         )
